@@ -1,43 +1,61 @@
-class Group():
-    def __init__(self):
-        self.member = []
-        self.popularity = 0
+class Dice:
+    def __init__(self,T,B,U,D,L,R):
+        self.dice = [T,U,R,L,D,B]#{"T":T,"U":U,"R":R,"L":L,"D":D,"B":B}
+        self.upper_surface = self.dice[0]
+        self.count = 0
     
-    def add(self,people):
-        self.member.append(people)
-    
-    def out(self,people):
-        self.member.remove(people)
-        
-    def check_one_side_people(self,people1,people2):
-        #print(people1,people2)
-        if people1 in self.member and people2 in self.member:
-            return False
-        return True
-            
-    def culc_popularity(self):
-        max_popularity = 0
-        for key,value in friendry.items():
-            if (key[0] in self.member or key[1] in self.member) and self.check_one_side_people(key[0],key[1]):
-                max_popularity = value if max_popularity < value else max_popularity
-        self.popularity = max_popularity
+    def search(self,num):
+        for i, dice_num in enumerate(self.dice):
+            #print(num,dice_num)
+            if num == dice_num:
+                if i == 1:#U
+                    #print("U",end="")
+                    self.up()
+                elif i == 2:#R
+                    #print("L",end="")
+                    self.left()
+                elif i == 3:#L
+                    #print("R",end="")
+                    self.right()
+                elif i == 4:#D
+                    #print("D",end="")
+                    self.down()
+                elif i == 5:#B
+                    #print("UU",end="")
+                    self.up()
+                    self.up()
                 
-            
+    def up(self):
+        self.dice[0], self.dice[1], self.dice[5], self.dice[4]= self.dice[1],self.dice[5], self.dice[4],self.dice[0]
+        self.upper_surface = self.dice[0]
+        self.count += 1
+    
+    def down(self):
+        self.dice[1],self.dice[5], self.dice[4],self.dice[0] = self.dice[0], self.dice[1], self.dice[5], self.dice[4]
+        self.upper_surface = self.dice[0]
+        self.count += 1
+    
+    def right(self):
+        self.dice[2],self.dice[5], self.dice[3], self.dice[0] = self.dice[0], self.dice[2], self.dice[5], self.dice[3]
+        self.upper_surface = self.dice[0]
+        self.count += 1
+    
+    def left(self):
+        self.dice[0], self.dice[2], self.dice[5], self.dice[3] = self.dice[2],self.dice[5], self.dice[3], self.dice[0] 
+        self.upper_surface = self.dice[0]
+        self.count += 1
+    
+    def print_dice(self):
+        #print(self.dice,self.count,self.upper_surface)
+        print(self.count)
         
-N,M,Q = map(int,input().split())
-friendry = {}
-for i in range(M):
-    a,b,f = map(int,input().split())
-    friendry[(a,b)] = f
-#print(friendry)
-g = Group()
-for i in range(Q):
-    op,q = input().split()
-    q = int(q)
-    if op == "+":
-        g.add(q)
-    else:
-        g.out(q)
-    g.culc_popularity()
-    #print(g.member)
-    print(g.popularity)
+T,B,U,D,L,R= map(int,input().split())
+N = int(input())
+d = Dice(T,B,U,D,L,R)
+for i in range(N):
+    num = int(input())
+    #print(num,end=" ")
+    d.search(num)
+d.print_dice()
+
+
