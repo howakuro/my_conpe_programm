@@ -11,17 +11,17 @@ void printList(vector<T> &A){
 }
 
 template <typename T>
-void bubbleSort(vector<T> A){
-    bool flag = true;
+void selectionSort(vector<T> A){
+    int minj;
     int count = 0;
-    while(flag){
-        flag = false;
-        for(int j = A.size() - 1;j >= 1;j--){
-            if(A[j] < A[j-1]){
-                swap(A[j], A[j-1]);
-                count++;
-                flag = true;
-            }
+    for(int i = 0;i < A.size();i++){
+        minj = i;
+        for(int j = i; j < A.size(); j++){
+            if(A[j] < A[minj]) minj = j;
+        }
+        if(A[i] != A[minj]){
+            swap(A[i], A[minj]);
+            count++;
         }
     }
     printList(A);
@@ -35,6 +35,6 @@ int main(){
     for(int i = 0;i < N;i++){
         cin >> A[i];
     }
-    bubbleSort(A);
+    selectionSort(A);
     return 0;
 }
